@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' ws: wss:;" />
+  <title>Suno Account Manager</title>
+  <style>
+    /* Loading screen styles */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1f2937;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: #f3f4f6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .loading-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    .loading-text {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #60a5fa;
+      margin-bottom: 0.5rem;
+    }
+
+    .loading-subtitle {
+      font-size: 0.875rem;
+      color: #9ca3af;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #374151;
+      border-radius: 50%;
+      border-top-color: #60a5fa;
+      animation: spin 1s linear infinite;
+      margin-top: 2rem;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Hide loading screen when app is ready */
+    .app-ready #loading-screen {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+    }
+
+    #root {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-icon">🎵</div>
+    <div class="loading-text">Suno Account Manager</div>
+    <div class="loading-subtitle">Loading application...</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- React App Root -->
+  <div id="root"></div>
+
+  <!-- App Script -->
+  <script type="module" src="/frontend/main.tsx"></script>
+
+  <!-- Loading Screen Script -->
+  <script>
+    // Hide loading screen when app is ready
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.body.classList.add('app-ready');
+      }, 1000);
+    });
+
+    // Fallback: hide loading screen after 10 seconds
+    setTimeout(() => {
+      document.body.classList.add('app-ready');
+    }, 10000);
+  </script>
+</body>
+</html>

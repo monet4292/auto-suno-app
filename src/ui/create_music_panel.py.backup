@@ -1,0 +1,366 @@
+"""
+Create Music Panel - UI để tạo nhạc tự động trên Suno
+"""
+import customtkinter as ctk
+import threading
+from typing import Optional
+from pathlib import Path
+
+# Import từ core
+from src.core.account_manager import AccountManager
+from src.core.session_manager import SessionManager
+from suno_auto_create import SunoMusicCreator, SunoCreateConfig
+
+
+class CreateMusicPanel(ctk.CTkFrame):
+    """
+    Panel tạo nhạc tự động với Suno Custom Mode
+    
+    Features:
+    - Chọn account đã lưu
+    - Nhập Persona, Lyrics, Styles, Title
+    - Cấu hình Advanced Options
+    - Progress bar hiển thị tiến trình
+    - Hiển thị kết quả (URLs bài hát)
+    """
+    
+    def __init__(self, parent, account_manager: AccountManager, session_manager: SessionManager):
+        super().__init__(parent)
+        
+        self.account_manager = account_manager
+        self.session_manager = session_manager
+        self.music_creator = SunoMusicCreator(
+            session_manager=session_manager,
+            progress_callback=self._update_progress
+        )
+        
+        # Storage cho created songs
+        self.created_songs = []  # List of {title, prompt_xml, urls}
+        
+        self.setup_ui()
+        
+    def setup_ui(self):
+        """Thiết lập giao diện 2 cột: Form (trái) và Kết quả (phải)"""
+        
+        # Configure grid weights để 2 cột co giãn
+        self.grid_columnconfigure(0, weight=1)  # Cột trái
+        self.grid_columnconfigure(1, weight=1)  # Cột phải
+        
+        # Title (full width)
+        title_label = ctk.CTkLabel(
+            self, 
+            text="🎵 Tạo Nhạc Tự Động",
+            font=("Arial", 24, "bold")
+        )
+        title_label.grid(row=0, column=0, columnspan=2, pady=20)
+        
+        # ============================================
+        # CỘT TRÁI: FORM INPUT
+        # ============================================
+        left_container = ctk.CTkScrollableFrame(self, width=700)
+        left_container.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+        
+        # PHẦN 1: CHỌN ACCOUNT
+        # PHẦN 1: CHỌN ACCOUNT
+        account_frame = ctk.CTkFrame(left_container)
+        account_frame.pack(fill="x", padx=10, pady=10)
+        
+        ctk.CTkLabel(account_frame, text="Account:", font=("Arial", 14, "bold")).grid(
+            row=0, column=0, padx=10, pady=10, sticky="w"
+        )
+        
+        self.account_var = ctk.StringVar()
+        self.account_dropdown = ctk.CTkComboBox(
+            account_frame,
+            variable=self.account_var,
+            values=self._get_account_list(),
+            width=300
+        )
+        self.account_dropdown.grid(row=0, column=1, padx=10, pady=10)
+        
+        # PHẦN 2: PERSONA (Optional)
+        persona_frame = ctk.CTkFrame(left_container)
+        persona_frame.pack(fill="x", padx=10, pady=10)
+        
+        ctk.CTkLabel(persona_frame, text="Persona (optional):", font=("Arial", 14, "bold")).grid(
+            row=0, column=0, padx=10, pady=10, sticky="w"
+        )
+        
+        self.persona_var = ctk.StringVar()
+        self.persona_entry = ctk.CTkEntry(
+            persona_frame,
+            textvariable=self.persona_var,
+            placeholder_text="Nhập tên Persona hoặc để trống",
+            width=300
+        )
+        self.persona_entry.grid(row=0, column=1, padx=10, pady=10)
+        
+        # PHẦN 3: NỘI DUNG CHÍNH
+        content_frame = ctk.CTkFrame(left_container)
+        content_frame.pack(fill="x", padx=10, pady=10)
+        
+        # Lyrics
+        ctk.CTkLabel(content_frame, text="Lyrics:", font=("Arial", 14, "bold")).grid(
+            row=0, column=0, padx=10, pady=5, sticky="nw"
+        )
+        
+        self.lyrics_text = ctk.CTkTextbox(content_frame, width=600, height=150)
+        self.lyrics_text.grid(row=0, column=1, padx=10, pady=5)
+        self.lyrics_text.insert("1.0", "[Verse 1]\nLời bài hát...\n\n[Chorus]\n...")
+        
+        # Styles
+        ctk.CTkLabel(content_frame, text="Styles:", font=("Arial", 14, "bold")).grid(
+            row=1, column=0, padx=10, pady=5, sticky="w"
+        )
+        
+        self.styles_var = ctk.StringVar()
+        self.styles_entry = ctk.CTkEntry(
+            content_frame,
+            textvariable=self.styles_var,
+            placeholder_text="Pop, upbeat, 120bpm, piano, guitar...",
+            width=600
+        )
+        self.styles_entry.grid(row=1, column=1, padx=10, pady=5)
+        
+        # Title
+        ctk.CTkLabel(content_frame, text="Title (optional):", font=("Arial", 14, "bold")).grid(
+            row=2, column=0, padx=10, pady=5, sticky="w"
+        )
+        
+        self.title_var = ctk.StringVar()
+        self.title_entry = ctk.CTkEntry(
+            content_frame,
+            textvariable=self.title_var,
+            placeholder_text="Tên bài hát (để trống để AI tự đặt)",
+            width=600
+        )
+        self.title_entry.grid(row=2, column=1, padx=10, pady=5)
+        
+        # ============================================
+        # PHẦN 4: ADVANCED OPTIONS
+        # ============================================
+        advanced_frame = ctk.CTkFrame(self)
+        advanced_frame.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
+        
+        ctk.CTkLabel(advanced_frame, text="Advanced Options", font=("Arial", 14, "bold")).grid(
+            row=0, column=0, columnspan=2, padx=10, pady=10
+        )
+        
+        # Vocal Gender
+        ctk.CTkLabel(advanced_frame, text="Vocal Gender:").grid(row=1, column=0, padx=10, pady=5, sticky="w")
+        self.vocal_gender_var = ctk.StringVar(value="Auto")
+        vocal_gender_dropdown = ctk.CTkComboBox(
+            advanced_frame,
+            variable=self.vocal_gender_var,
+            values=["Auto", "Male", "Female"],
+            width=200
+        )
+        vocal_gender_dropdown.grid(row=1, column=1, padx=10, pady=5, sticky="w")
+        
+        # Lyrics Mode
+        ctk.CTkLabel(advanced_frame, text="Lyrics Mode:").grid(row=2, column=0, padx=10, pady=5, sticky="w")
+        self.lyrics_mode_var = ctk.StringVar(value="Auto")
+        lyrics_mode_dropdown = ctk.CTkComboBox(
+            advanced_frame,
+            variable=self.lyrics_mode_var,
+            values=["Auto", "Manual"],
+            width=200
+        )
+        lyrics_mode_dropdown.grid(row=2, column=1, padx=10, pady=5, sticky="w")
+        
+        # Weirdness
+        ctk.CTkLabel(advanced_frame, text="Weirdness:").grid(row=3, column=0, padx=10, pady=5, sticky="w")
+        self.weirdness_var = ctk.IntVar(value=50)
+        self.weirdness_slider = ctk.CTkSlider(
+            advanced_frame,
+            from_=0,
+            to=100,
+            variable=self.weirdness_var,
+            width=200
+        )
+        self.weirdness_slider.grid(row=3, column=1, padx=10, pady=5, sticky="w")
+        self.weirdness_label = ctk.CTkLabel(advanced_frame, text="50%")
+        self.weirdness_label.grid(row=3, column=2, padx=5, pady=5)
+        self.weirdness_slider.configure(command=self._update_weirdness_label)
+        
+        # Style Influence
+        ctk.CTkLabel(advanced_frame, text="Style Influence:").grid(row=4, column=0, padx=10, pady=5, sticky="w")
+        self.style_influence_var = ctk.IntVar(value=50)
+        self.style_influence_slider = ctk.CTkSlider(
+            advanced_frame,
+            from_=0,
+            to=100,
+            variable=self.style_influence_var,
+            width=200
+        )
+        self.style_influence_slider.grid(row=4, column=1, padx=10, pady=5, sticky="w")
+        self.style_influence_label = ctk.CTkLabel(advanced_frame, text="50%")
+        self.style_influence_label.grid(row=4, column=2, padx=5, pady=5)
+        self.style_influence_slider.configure(command=self._update_style_influence_label)
+        
+        # ============================================
+        # PHẦN 5: PROGRESS & ACTIONS
+        # ============================================
+        progress_frame = ctk.CTkFrame(self)
+        progress_frame.grid(row=5, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
+        
+        # Progress bar
+        self.progress_bar = ctk.CTkProgressBar(progress_frame, width=600)
+        self.progress_bar.grid(row=0, column=0, columnspan=2, padx=10, pady=5)
+        self.progress_bar.set(0)
+        
+        # Progress label
+        self.progress_label = ctk.CTkLabel(progress_frame, text="Chưa bắt đầu")
+        self.progress_label.grid(row=1, column=0, columnspan=2, padx=10, pady=5)
+        
+        # Buttons
+        button_frame = ctk.CTkFrame(progress_frame)
+        button_frame.grid(row=2, column=0, columnspan=2, pady=10)
+        
+        self.create_button = ctk.CTkButton(
+            button_frame,
+            text="🎼 Tạo Bài Hát",
+            command=self._on_create_click,
+            width=200,
+            height=40,
+            font=("Arial", 14, "bold")
+        )
+        self.create_button.pack(side="left", padx=10)
+        
+        self.clear_button = ctk.CTkButton(
+            button_frame,
+            text="🗑️ Xóa Form",
+            command=self._clear_form,
+            width=150,
+            height=40
+        )
+        self.clear_button.pack(side="left", padx=10)
+        
+        # ============================================
+        # PHẦN 6: KẾT QUẢ
+        # ============================================
+        result_frame = ctk.CTkFrame(self)
+        result_frame.grid(row=6, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
+        
+        ctk.CTkLabel(result_frame, text="Kết quả:", font=("Arial", 14, "bold")).grid(
+            row=0, column=0, padx=10, pady=5, sticky="w"
+        )
+        
+        self.result_text = ctk.CTkTextbox(result_frame, width=600, height=100)
+        self.result_text.grid(row=1, column=0, padx=10, pady=5)
+        
+    def _get_account_list(self):
+        """Lấy danh sách accounts từ AccountManager"""
+        accounts = self.account_manager.get_all_accounts()
+        if not accounts:
+            return ["Chưa có account nào"]
+        return [acc.name for acc in accounts]
+    
+    def _update_weirdness_label(self, value):
+        """Cập nhật label Weirdness slider"""
+        self.weirdness_label.configure(text=f"{int(float(value))}%")
+    
+    def _update_style_influence_label(self, value):
+        """Cập nhật label Style Influence slider"""
+        self.style_influence_label.configure(text=f"{int(float(value))}%")
+    
+    def _clear_form(self):
+        """Xóa toàn bộ form"""
+        self.persona_var.set("")
+        self.lyrics_text.delete("1.0", "end")
+        self.styles_var.set("")
+        self.title_var.set("")
+        self.vocal_gender_var.set("Auto")
+        self.lyrics_mode_var.set("Auto")
+        self.weirdness_var.set(50)
+        self.style_influence_var.set(50)
+        self.progress_bar.set(0)
+        self.progress_label.configure(text="Chưa bắt đầu")
+        self.result_text.delete("1.0", "end")
+    
+    def _update_progress(self, message: str, progress: int):
+        """
+        Callback từ SunoMusicCreator để cập nhật progress
+        
+        Args:
+            message: Thông điệp hiển thị
+            progress: % hoàn thành (0-100)
+        """
+        self.progress_label.configure(text=message)
+        self.progress_bar.set(progress / 100)
+    
+    def _on_create_click(self):
+        """Xử lý khi click nút Tạo Bài Hát"""
+        # Validate
+        account_name = self.account_var.get()
+        if not account_name or account_name == "Chưa có account nào":
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", "❌ Vui lòng chọn account!")
+            return
+        
+        styles = self.styles_var.get().strip()
+        if not styles:
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", "❌ Vui lòng nhập Styles!")
+            return
+        
+        # Disable button
+        self.create_button.configure(state="disabled", text="⏳ Đang tạo...")
+        
+        # Chạy trong thread riêng để không block UI
+        thread = threading.Thread(
+            target=self._create_music_thread,
+            args=(account_name,),
+            daemon=True
+        )
+        thread.start()
+    
+    def _create_music_thread(self, account_name: str):
+        """Thread worker để tạo nhạc"""
+        try:
+            # Tạo config
+            config = SunoCreateConfig(
+                persona_name=self.persona_var.get().strip() or None,
+                lyrics=self.lyrics_text.get("1.0", "end").strip(),
+                styles=self.styles_var.get().strip(),
+                title=self.title_var.get().strip() or None,
+                vocal_gender=None if self.vocal_gender_var.get() == "Auto" else self.vocal_gender_var.get(),
+                lyrics_mode=None if self.lyrics_mode_var.get() == "Auto" else self.lyrics_mode_var.get(),
+                weirdness=self.weirdness_var.get(),
+                style_influence=self.style_influence_var.get(),
+                wait_for_generation=True,
+                timeout=120
+            )
+            
+            # Tạo nhạc
+            result = self.music_creator.create_song(account_name, config)
+            
+            # Hiển thị kết quả
+            self.result_text.delete("1.0", "end")
+            
+            if result["success"]:
+                output = f"✅ Tạo nhạc thành công!\n\n"
+                output += f"Steps: {', '.join(result['steps_completed'])}\n\n"
+                output += f"Đã tạo {len(result['song_urls'])} bài hát:\n"
+                for url in result["song_urls"]:
+                    output += f"  🎵 {url}\n"
+                self.result_text.insert("1.0", output)
+            else:
+                output = f"❌ Lỗi: {result['error']}\n\n"
+                output += f"Steps completed: {', '.join(result['steps_completed'])}"
+                self.result_text.insert("1.0", output)
+                
+        except Exception as e:
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", f"❌ Exception: {str(e)}")
+        finally:
+            # Re-enable button
+            self.create_button.configure(state="normal", text="🎼 Tạo Bài Hát")
+    
+    def refresh(self):
+        """Refresh panel - gọi khi panel được hiển thị"""
+        # Cập nhật danh sách accounts
+        accounts = self._get_account_list()
+        self.account_dropdown.configure(values=accounts)
+        if accounts and accounts[0] != "Chưa có account nào":
+            self.account_var.set(accounts[0])

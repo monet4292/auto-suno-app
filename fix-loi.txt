@@ -1,0 +1,38 @@
+npm run dev
+
+(.venv) PS F:\auto-suno-app> npm run dev
+
+> suno-react-app@3.0.0 dev
+> concurrently "npm run dev:renderer" "npm run dev:main"
+
+(node:34128) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1] 
+[1] > suno-react-app@3.0.0 dev:main
+[1] > tsc -p electron/tsconfig.preload.json && node -e "const fs = require('fs'); if(fs.existsSync('dist/electron/preload.js')) fs.renameSync('dist/electron/preload.js', 'dist/electron/preload.cjs')" && tsc -p electron/tsconfig.main.json && node -e "const fs = require('fs'); const files = ['python-bridge.js', 'ipc-handlers.js', 'ipc-channels.js', 'main-window.js']; files.forEach(file => { const src = 'dist/electron/' + file; const dst = 'dist/electron/' + file.replace('.js', '.cjs'); if(fs.existsSync(src)) fs.renameSync(src, dst); }); const mainCjs = 'dist/electron/main.cjs'; if(fs.existsSync(mainCjs)) { let content = fs.readFileSync(mainCjs, 'utf8'); content = content.replace(/require(\"\.\/([^\.]+)\.js\")/g, 'require(\'./$1.cjs\')'); fs.writeFileSync(mainCjs, content); }" && cross-env NODE_ENV=development electron dist/electron/main.cjs                                                                                                                          
+[1] 
+[0] 
+[0] > suno-react-app@3.0.0 dev:renderer
+[0] > vite
+[0] 
+[0] 
+[0]   VITE v5.4.21  ready in 241 ms
+[0]
+[0]   ➜  Local:   http://localhost:5173/
+[1] 
+[1] App threw an error during load
+[1] Error: Cannot find module './ipc-channels.js'
+[1] Require stack:
+[1] - F:\auto-suno-app\dist\electron\ipc-handlers.cjs
+[1] - F:\auto-suno-app\dist\electron\main.cjs
+[1]     at Module._resolveFilename (node:internal/modules/cjs/loader:1084:15)
+[1]     at s._resolveFilename (node:electron/js2c/browser_init:2:114421)
+[1]     at Module._load (node:internal/modules/cjs/loader:929:27)
+[1]     at c._load (node:electron/js2c/node_init:2:13672)
+[1]     at Module.require (node:internal/modules/cjs/loader:1150:19)
+[1]     at require (node:internal/modules/cjs/helpers:119:18)
+[1]     at Object.<anonymous> (F:\auto-suno-app\dist\electron\ipc-handlers.cjs:11:27)
+[1]     at Module._compile (node:internal/modules/cjs/loader:1271:14)
+[1]     at Module._extensions..js (node:internal/modules/cjs/loader:1326:10)
+[1]     at Module.load (node:internal/modules/cjs/loader:1126:32)
+[1] Terminate batch job (Y/N)? Terminate batch job (Y/N)? (.venv) PS F:\auto-suno-app> F:\auto-suno-app\node_modules\electron\dist\electron.exe exited with signal SIGINT                                                                                                                                                           

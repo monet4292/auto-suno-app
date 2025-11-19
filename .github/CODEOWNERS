@@ -1,0 +1,9 @@
+# Codeowners: Team ownership rules for the repository
+# Format: path  @github-username-or-team
+
+# default owners for src and tests
+src/ @your-org/your-team
+tests/ @your-org/your-team
+
+# fallback owner for repo
+/* @your-org/your-team

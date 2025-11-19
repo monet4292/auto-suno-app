@@ -1,0 +1,914 @@
+"""
+Multiple Songs Panel - UI để tạo nhiều bài hát cùng lúc
+"""
+import customtkinter as ctk
+import threading
+from typing import List
+from pathlib import Path
+import time
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+
+from src.core.account_manager import AccountManager
+from src.utils.prompt_parser import SunoPromptParser, SunoPrompt
+from src.utils import logger
+
+
+class BasicSelectors:
+    """Basic selectors cho form inputs"""
+    CUSTOM_BUTTON = "//button[normalize-space(.)='Custom']"
+    LYRICS_TEXTAREA = "//textarea[contains(@placeholder, 'Write some lyrics')]"
+    STYLES_TEXTAREA = "//textarea[contains(@placeholder, 'indie, electronic')]"
+    CREATE_BUTTON = "//button[@aria-label='Create song']"
+    
+    # Advanced Options selectors
+    ADVANCED_OPTIONS_BUTTON = "//div[@role='button']//div[contains(text(), 'Advanced Options')]"
+    EXCLUDE_STYLES_INPUT = "//input[contains(@placeholder, 'Exclude styles')]"
+    MALE_BUTTON = "//button[normalize-space(.)='Male']"
+    FEMALE_BUTTON = "//button[normalize-space(.)='Female']"
+    MANUAL_LYRICS_BUTTON = "//button[normalize-space(.)='Manual']"
+    AUTO_LYRICS_BUTTON = "//button[normalize-space(.)='Auto']"
+    WEIRDNESS_SLIDER = "//div[@role='slider' and @aria-label='Weirdness']"
+    STYLE_INFLUENCE_SLIDER = "//div[@role='slider' and @aria-label='Style Influence']"
+    
+    # Persona selectors
+    PERSONA_BUTTON = "//button[contains(., 'Persona') or contains(., 'Add Persona')]"
+    PERSONA_MODAL_SEARCH = "//div[contains(@class, 'chakra-modal__content')]//input[@placeholder='Search']"
+    PERSONA_CONTAINER = "//div[contains(@class, 'group flex w-full cursor-pointer items-center gap-4')]"
+
+
+class MultipleSongsPanel(ctk.CTkFrame):
+    """
+    Panel tạo nhiều bài hát cùng lúc từ XML file
+    
+    Features:
+    - Chọn XML file chứa multiple prompts
+    - Preview danh sách bài hát sẽ tạo
+    - Mở nhiều tabs Chrome và fill form song song
+    - Tùy chọn auto-submit tất cả bài
+    """
+    
+    def __init__(self, parent, account_manager: AccountManager):
+        super().__init__(parent)
+        self.account_manager = account_manager
+        self.prompts: List[SunoPrompt] = []
+        self.driver = None
+        self.created_songs = []  # List of {title, prompt_xml, status}
+        self.setup_ui()
+    
+    def setup_ui(self):
+        """Thiết lập giao diện 2 cột: Form (trái) và Kết quả (phải)"""
+        
+        # Configure grid weights
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        
+        # Title (full width)
+        title_label = ctk.CTkLabel(
+            self,
+            text="🎵 Tạo Nhiều Bài Hát Cùng Lúc",
+            font=("Arial", 24, "bold")
+        )
+        title_label.grid(row=0, column=0, columnspan=2, pady=20)
+        
+        # ============================================
+        # CỘT TRÁI: FORM INPUT
+        # ============================================
+        left_container = ctk.CTkScrollableFrame(self, width=700)
+        left_container.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+        
+        # PHẦN 1: CHỌN ACCOUNT & FILE
+        input_frame = ctk.CTkFrame(left_container)
+        input_frame.pack(fill="x", padx=10, pady=10)
+        
+        # Account
+        ctk.CTkLabel(input_frame, text="Account:", font=("Arial", 14, "bold")).grid(
+            row=0, column=0, padx=10, pady=10, sticky="w"
+        )
+        
+        self.account_var = ctk.StringVar()
+        self.account_dropdown = ctk.CTkComboBox(
+            input_frame,
+            variable=self.account_var,
+            values=self._get_account_list(),
+            width=300
+        )
+        self.account_dropdown.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+        
+        # XML File
+        ctk.CTkLabel(input_frame, text="XML File:", font=("Arial", 14, "bold")).grid(
+            row=1, column=0, padx=10, pady=10, sticky="w"
+        )
+        
+        file_frame = ctk.CTkFrame(input_frame)
+        file_frame.grid(row=1, column=1, padx=10, pady=10, sticky="w")
+        
+        self.file_path_var = ctk.StringVar(value="src/prompt/multiple-suno-prompt.xml")
+        self.file_entry = ctk.CTkEntry(
+            file_frame,
+            textvariable=self.file_path_var,
+            width=350
+        )
+        self.file_entry.pack(side="left", padx=5)
+        
+        self.browse_button = ctk.CTkButton(
+            file_frame,
+            text="📁 Chọn File",
+            command=self._browse_file,
+            width=100
+        )
+        self.browse_button.pack(side="left", padx=5)
+        
+        self.parse_button = ctk.CTkButton(
+            file_frame,
+            text="🔍 Parse",
+            command=self._parse_xml,
+            width=80
+        )
+        self.parse_button.pack(side="left", padx=5)
+        
+        # Batch Size Option
+        ctk.CTkLabel(input_frame, text="Batch Size:", font=("Arial", 14, "bold")).grid(
+            row=2, column=0, padx=10, pady=10, sticky="w"
+        )
+        
+        batch_frame = ctk.CTkFrame(input_frame)
+        batch_frame.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+        
+        self.batch_size_var = ctk.IntVar(value=10)
+        batch_spinbox = ctk.CTkEntry(
+            batch_frame,
+            textvariable=self.batch_size_var,
+            width=80
+        )
+        batch_spinbox.pack(side="left", padx=5)
+        
+        ctk.CTkLabel(
+            batch_frame,
+            text="bài/lần (VD: 100 bài sẽ chạy 10 lần x 10 bài)",
+            font=("Arial", 10),
+            text_color="gray"
+        ).pack(side="left", padx=5)
+        
+        # Keep Browser Option
+        self.keep_browser_var = ctk.BooleanVar(value=True)
+        keep_browser_check = ctk.CTkCheckBox(
+            input_frame,
+            text="� Giữ browser mở 30s để review",
+            variable=self.keep_browser_var,
+            font=("Arial", 12)
+        )
+        keep_browser_check.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky="w")
+        
+        # PHẦN 2: PREVIEW DANH SÁCH BÀI HÁT
+        preview_frame = ctk.CTkFrame(left_container)
+        preview_frame.pack(fill="x", padx=10, pady=10)
+        
+        ctk.CTkLabel(
+            preview_frame,
+            text="� Danh Sách Bài Hát:",
+            font=("Arial", 14, "bold")
+        ).pack(padx=10, pady=5, anchor="w")
+        
+        self.preview_text = ctk.CTkTextbox(preview_frame, width=650, height=200)
+        self.preview_text.pack(padx=10, pady=5)
+        self.preview_text.insert("1.0", "Chưa parse file nào. Click 'Parse' để bắt đầu.")
+        
+        # PHẦN 3: ADVANCED OPTIONS
+        # ============================================
+        advanced_frame = ctk.CTkFrame(self)
+        advanced_frame.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
+        
+        # Header with checkbox to enable/disable
+        header_frame = ctk.CTkFrame(advanced_frame)
+        header_frame.grid(row=0, column=0, columnspan=2, padx=10, pady=5, sticky="ew")
+        
+        self.use_advanced_var = ctk.BooleanVar(value=False)
+        use_advanced_check = ctk.CTkCheckBox(
+            header_frame,
+            text="⚙️ Sử dụng Advanced Options",
+            variable=self.use_advanced_var,
+            font=("Arial", 13, "bold"),
+            command=self._toggle_advanced_options
+        )
+        use_advanced_check.pack(side="left", padx=10)
+        
+        # Advanced options container (disabled by default)
+        self.advanced_container = ctk.CTkFrame(advanced_frame)
+        self.advanced_container.grid(row=1, column=0, columnspan=2, padx=10, pady=5, sticky="ew")
+        
+        # Row 1: Exclude Styles
+        ctk.CTkLabel(
+            self.advanced_container,
+            text="Exclude Styles:",
+            font=("Arial", 11)
+        ).grid(row=0, column=0, padx=10, pady=5, sticky="w")
+        
+        self.exclude_styles_var = ctk.StringVar(value="")
+        self.exclude_styles_entry = ctk.CTkEntry(
+            self.advanced_container,
+            textvariable=self.exclude_styles_var,
+            width=300,
+            placeholder_text="rock, metal, edm..."
+        )
+        self.exclude_styles_entry.grid(row=0, column=1, padx=10, pady=5, sticky="w")
+        
+        # Row 2: Vocal Gender
+        ctk.CTkLabel(
+            self.advanced_container,
+            text="Vocal Gender:",
+            font=("Arial", 11)
+        ).grid(row=1, column=0, padx=10, pady=5, sticky="w")
+        
+        gender_frame = ctk.CTkFrame(self.advanced_container)
+        gender_frame.grid(row=1, column=1, padx=10, pady=5, sticky="w")
+        
+        self.vocal_gender_var = ctk.StringVar(value="")
+        ctk.CTkRadioButton(
+            gender_frame,
+            text="Male",
+            variable=self.vocal_gender_var,
+            value="Male"
+        ).pack(side="left", padx=5)
+        
+        ctk.CTkRadioButton(
+            gender_frame,
+            text="Female",
+            variable=self.vocal_gender_var,
+            value="Female"
+        ).pack(side="left", padx=5)
+        
+        ctk.CTkRadioButton(
+            gender_frame,
+            text="None",
+            variable=self.vocal_gender_var,
+            value=""
+        ).pack(side="left", padx=5)
+        
+        # Row 3: Lyrics Mode
+        ctk.CTkLabel(
+            self.advanced_container,
+            text="Lyrics Mode:",
+            font=("Arial", 11)
+        ).grid(row=2, column=0, padx=10, pady=5, sticky="w")
+        
+        lyrics_mode_frame = ctk.CTkFrame(self.advanced_container)
+        lyrics_mode_frame.grid(row=2, column=1, padx=10, pady=5, sticky="w")
+        
+        self.lyrics_mode_var = ctk.StringVar(value="")
+        ctk.CTkRadioButton(
+            lyrics_mode_frame,
+            text="Manual",
+            variable=self.lyrics_mode_var,
+            value="Manual"
+        ).pack(side="left", padx=5)
+        
+        ctk.CTkRadioButton(
+            lyrics_mode_frame,
+            text="Auto",
+            variable=self.lyrics_mode_var,
+            value="Auto"
+        ).pack(side="left", padx=5)
+        
+        ctk.CTkRadioButton(
+            lyrics_mode_frame,
+            text="None",
+            variable=self.lyrics_mode_var,
+            value=""
+        ).pack(side="left", padx=5)
+        
+        # Row 4: Weirdness Slider
+        ctk.CTkLabel(
+            self.advanced_container,
+            text="Weirdness:",
+            font=("Arial", 11)
+        ).grid(row=3, column=0, padx=10, pady=5, sticky="w")
+        
+        weirdness_frame = ctk.CTkFrame(self.advanced_container)
+        weirdness_frame.grid(row=3, column=1, padx=10, pady=5, sticky="w")
+        
+        self.weirdness_var = ctk.IntVar(value=50)
+        self.weirdness_slider = ctk.CTkSlider(
+            weirdness_frame,
+            from_=0,
+            to=100,
+            variable=self.weirdness_var,
+            width=250
+        )
+        self.weirdness_slider.pack(side="left", padx=5)
+        
+        self.weirdness_label = ctk.CTkLabel(
+            weirdness_frame,
+            text="50%",
+            font=("Arial", 11, "bold"),
+            width=50
+        )
+        self.weirdness_label.pack(side="left", padx=5)
+        
+        # Bind slider change
+        self.weirdness_slider.configure(command=lambda v: self.weirdness_label.configure(text=f"{int(v)}%"))
+        
+        # Row 5: Style Influence Slider
+        ctk.CTkLabel(
+            self.advanced_container,
+            text="Style Influence:",
+            font=("Arial", 11)
+        ).grid(row=4, column=0, padx=10, pady=5, sticky="w")
+        
+        style_influence_frame = ctk.CTkFrame(self.advanced_container)
+        style_influence_frame.grid(row=4, column=1, padx=10, pady=5, sticky="w")
+        
+        self.style_influence_var = ctk.IntVar(value=50)
+        self.style_influence_slider = ctk.CTkSlider(
+            style_influence_frame,
+            from_=0,
+            to=100,
+            variable=self.style_influence_var,
+            width=250
+        )
+        self.style_influence_slider.pack(side="left", padx=5)
+        
+        self.style_influence_label = ctk.CTkLabel(
+            style_influence_frame,
+            text="50%",
+            font=("Arial", 11, "bold"),
+            width=50
+        )
+        self.style_influence_label.pack(side="left", padx=5)
+        
+        # Bind slider change
+        self.style_influence_slider.configure(command=lambda v: self.style_influence_label.configure(text=f"{int(v)}%"))
+        
+        # Row 6: Persona Name
+        ctk.CTkLabel(
+            self.advanced_container,
+            text="Persona:",
+            font=("Arial", 11)
+        ).grid(row=5, column=0, padx=10, pady=5, sticky="w")
+        
+        persona_frame = ctk.CTkFrame(self.advanced_container)
+        persona_frame.grid(row=5, column=1, padx=10, pady=5, sticky="w")
+        
+        self.persona_name_var = ctk.StringVar(value="")
+        self.persona_entry = ctk.CTkEntry(
+            persona_frame,
+            textvariable=self.persona_name_var,
+            width=250,
+            placeholder_text="Minh Chien, John Doe..."
+        )
+        self.persona_entry.pack(side="left", padx=5)
+        
+        ctk.CTkLabel(
+            persona_frame,
+            text="ℹ️ Tìm và chọn persona theo tên",
+            font=("Arial", 9),
+            text_color="gray"
+        ).pack(side="left", padx=5)
+        
+        # Disable advanced options by default
+        self._toggle_advanced_options()
+        
+        # ============================================
+        # PHẦN 4: PROGRESS & ACTIONS
+        # ============================================
+        progress_frame = ctk.CTkFrame(self)
+        progress_frame.grid(row=5, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
+        
+        # Progress bar
+        self.progress_bar = ctk.CTkProgressBar(progress_frame, width=700)
+        self.progress_bar.grid(row=0, column=0, padx=10, pady=5)
+        self.progress_bar.set(0)
+        
+        # Progress label
+        self.progress_label = ctk.CTkLabel(
+            progress_frame,
+            text="Sẵn sàng tạo bài hát",
+            font=("Arial", 12)
+        )
+        self.progress_label.grid(row=1, column=0, padx=10, pady=5)
+        
+        # Buttons
+        button_frame = ctk.CTkFrame(progress_frame)
+        button_frame.grid(row=2, column=0, pady=10)
+        
+        self.start_button = ctk.CTkButton(
+            button_frame,
+            text="🎼 Bắt Đầu Tạo Bài Hát",
+            command=self._on_start_click,
+            width=250,
+            height=45,
+            font=("Arial", 16, "bold"),
+            fg_color="green"
+        )
+        self.start_button.pack(side="left", padx=10)
+        
+        self.stop_button = ctk.CTkButton(
+            button_frame,
+            text="⏹️ Dừng",
+            command=self._on_stop_click,
+            width=120,
+            height=45,
+            font=("Arial", 14),
+            fg_color="red",
+            state="disabled"
+        )
+        self.stop_button.pack(side="left", padx=10)
+        
+        # ============================================
+        # PHẦN 5: KẾT QUẢ
+        # ============================================
+        result_frame = ctk.CTkFrame(self)
+        result_frame.grid(row=5, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
+        
+        ctk.CTkLabel(
+            result_frame,
+            text="📊 Kết Quả:",
+            font=("Arial", 14, "bold")
+        ).grid(row=0, column=0, padx=10, pady=5, sticky="w")
+        
+        self.result_text = ctk.CTkTextbox(result_frame, width=700, height=150)
+        self.result_text.grid(row=1, column=0, padx=10, pady=5)
+    
+    def _get_account_list(self):
+        """Lấy danh sách accounts"""
+        accounts = self.account_manager.get_all_accounts()
+        if not accounts:
+            return ["Chưa có account nào"]
+        return [acc.name for acc in accounts]
+    
+    def _browse_file(self):
+        """Chọn file XML"""
+        from tkinter import filedialog
+        filename = filedialog.askopenfilename(
+            title="Chọn XML file",
+            filetypes=[("XML files", "*.xml"), ("All files", "*.*")]
+        )
+        if filename:
+            self.file_path_var.set(filename)
+            self._parse_xml()
+    
+    def _parse_xml(self):
+        """Parse XML file và hiển thị preview"""
+        file_path = self.file_path_var.get()
+        
+        if not file_path:
+            self.preview_text.delete("1.0", "end")
+            self.preview_text.insert("1.0", "❌ Chưa chọn file!")
+            return
+        
+        # Parse
+        self.prompts = SunoPromptParser.parse_all_from_file(file_path)
+        
+        # Display preview
+        self.preview_text.delete("1.0", "end")
+        
+        if not self.prompts:
+            self.preview_text.insert("1.0", "❌ Không parse được prompt nào từ file!")
+            return
+        
+        output = f"✅ Tìm thấy {len(self.prompts)} bài hát:\n\n"
+        
+        for i, prompt in enumerate(self.prompts, 1):
+            output += f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            output += f"Bài {i}: {prompt.title}\n"
+            output += f"Style: {prompt.style[:60]}...\n"
+            output += f"Lyrics: {len(prompt.lyrics)} ký tự\n"
+            output += f"Preview: {prompt.lyrics[:80].replace(chr(10), ' ')}...\n\n"
+        
+        self.preview_text.insert("1.0", output)
+        logger.info(f"✅ Parsed {len(self.prompts)} prompts from {file_path}")
+    
+    def _on_start_click(self):
+        """Bắt đầu tạo bài hát"""
+        # Validate
+        account_name = self.account_var.get()
+        if not account_name or account_name == "Chưa có account nào":
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", "❌ Vui lòng chọn account!")
+            return
+        
+        if not self.prompts:
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", "❌ Chưa parse prompts! Click 'Parse' trước.")
+            return
+        
+        # Disable/enable buttons
+        self.start_button.configure(state="disabled")
+        self.stop_button.configure(state="normal")
+        self.result_text.delete("1.0", "end")
+        
+        # Start worker thread
+        thread = threading.Thread(
+            target=self._create_multiple_songs_thread,
+            args=(account_name,),
+            daemon=True
+        )
+        thread.start()
+    
+    def _on_stop_click(self):
+        """Dừng quá trình"""
+        if self.driver:
+            self.driver.quit()
+            self.driver = None
+        
+        self.start_button.configure(state="normal")
+        self.stop_button.configure(state="disabled")
+        self.progress_label.configure(text="❌ Đã dừng")
+    
+    def _create_multiple_songs_thread(self, account_name: str):
+        """Worker thread tạo nhiều bài hát"""
+        try:
+            self._update_progress("🚀 Khởi động Chrome...", 0)
+            
+            # Setup Chrome
+            profile_path = Path(__file__).parent.parent.parent / "profiles" / account_name
+            if not profile_path.exists():
+                self._show_error(f"❌ Profile không tồn tại: {profile_path}")
+                return
+            
+            options = Options()
+            options.add_argument(f'--user-data-dir={profile_path}')
+            options.add_experimental_option('excludeSwitches', ['enable-logging'])
+            
+            self.driver = webdriver.Chrome(options=options)
+            
+            # Mở tabs
+            total_songs = len(self.prompts)
+            self._update_progress(f"📂 Mở {total_songs} tabs...", 10)
+            
+            self.driver.get("https://suno.com/create")
+            tabs = [self.driver.current_window_handle]
+            
+            for i in range(1, total_songs):
+                self.driver.execute_script("window.open('https://suno.com/create', '_blank');")
+                time.sleep(0.5)
+            
+            tabs = self.driver.window_handles
+            logger.info(f"✅ Đã mở {len(tabs)} tabs")
+            
+            # Fill forms
+            results = []
+            for i, prompt in enumerate(self.prompts):
+                progress = 10 + (i / total_songs) * 70
+                self._update_progress(f"✍️ Fill bài {i+1}/{total_songs}: {prompt.title}", progress)
+                
+                self.driver.switch_to.window(tabs[i])
+                success = self._fill_song_form(prompt, i+1)
+                results.append({'title': prompt.title, 'success': success})
+                
+                # Auto-submit if enabled
+                if success and self.auto_submit_var.get():
+                    try:
+                        create_btn = self.driver.find_element(By.XPATH, BasicSelectors.CREATE_BUTTON)
+                        if create_btn.is_enabled():
+                            create_btn.click()
+                            logger.info(f"✅ Auto-submitted bài {i+1}: {prompt.title}")
+                            time.sleep(2)
+                    except Exception as e:
+                        logger.error(f"❌ Lỗi auto-submit bài {i+1}: {e}")
+            
+            # Show results
+            self._update_progress("✅ Hoàn thành!", 100)
+            self._show_results(results)
+            
+            # Keep browser open
+            if self.keep_browser_var.get():
+                logger.info("🔍 Giữ browser mở 30s...")
+                time.sleep(30)
+            
+        except Exception as e:
+            logger.error(f"❌ Lỗi: {e}")
+            import traceback
+            self._show_error(f"❌ Exception: {str(e)}\n\n{traceback.format_exc()}")
+        
+        finally:
+            if self.driver:
+                self.driver.quit()
+                self.driver = None
+            
+            self.start_button.configure(state="normal")
+            self.stop_button.configure(state="disabled")
+    
+    def _fill_song_form(self, prompt: SunoPrompt, tab_index: int) -> bool:
+        """Fill form cho 1 bài hát"""
+        try:
+            time.sleep(2)
+            
+            # Check Custom mode
+            lyrics_inputs = self.driver.find_elements(By.XPATH, BasicSelectors.LYRICS_TEXTAREA)
+            if not lyrics_inputs:
+                custom_btn = WebDriverWait(self.driver, 5).until(
+                    EC.element_to_be_clickable((By.XPATH, BasicSelectors.CUSTOM_BUTTON))
+                )
+                custom_btn.click()
+                time.sleep(2)
+            
+            # Fill Lyrics
+            lyrics_box = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, BasicSelectors.LYRICS_TEXTAREA))
+            )
+            lyrics_box.clear()
+            lyrics_box.send_keys(prompt.lyrics)
+            
+            # Fill Styles
+            styles_box = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, BasicSelectors.STYLES_TEXTAREA))
+            )
+            styles_box.clear()
+            styles_box.send_keys(prompt.style)
+            
+            # Fill Title
+            time.sleep(1)
+            all_inputs = self.driver.find_elements(By.XPATH, "//input[@type='text' or not(@type)]")
+            if len(all_inputs) >= 4:
+                title_box = all_inputs[3]
+                title_box.click()
+                time.sleep(0.3)
+                title_box.clear()
+                title_box.send_keys(prompt.title)
+            
+            # Apply Advanced Options if enabled
+            if self.use_advanced_var.get():
+                self._apply_advanced_options(self.driver, tab_index)
+            
+            logger.info(f"✅ TAB {tab_index}: Filled {prompt.title}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ TAB {tab_index} error: {e}")
+            return False
+    
+    def _update_progress(self, message: str, progress: int):
+        """Cập nhật progress bar và label"""
+        self.progress_label.configure(text=message)
+        self.progress_bar.set(progress / 100)
+    
+    def _show_error(self, message: str):
+        """Hiển thị lỗi"""
+        self.result_text.delete("1.0", "end")
+        self.result_text.insert("1.0", message)
+    
+    def _show_results(self, results: List[dict]):
+        """Hiển thị kết quả"""
+        self.result_text.delete("1.0", "end")
+        
+        successful = [r for r in results if r['success']]
+        output = f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        output += f"📊 KẾT QUẢ: {len(successful)}/{len(results)} bài thành công\n"
+        output += f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        
+        for r in results:
+            status = "✅" if r['success'] else "❌"
+            output += f"{status} {r['title']}\n"
+        
+        if self.auto_submit_var.get():
+            output += f"\n🚀 Đã auto-submit {len(successful)} bài hát!"
+        else:
+            output += f"\n💡 Bạn có thể vào từng tab để click Create thủ công."
+        
+        self.result_text.insert("1.0", output)
+    
+    def refresh(self):
+        """Refresh panel"""
+        accounts = self._get_account_list()
+        self.account_dropdown.configure(values=accounts)
+        if accounts and accounts[0] != "Chưa có account nào":
+            self.account_var.set(accounts[0])
+    
+    def _toggle_advanced_options(self):
+        """Enable/disable advanced options controls"""
+        state = "normal" if self.use_advanced_var.get() else "disabled"
+        
+        # Disable/enable all widgets in advanced container
+        for widget in self.advanced_container.winfo_children():
+            if isinstance(widget, (ctk.CTkEntry, ctk.CTkSlider)):
+                widget.configure(state=state)
+            elif isinstance(widget, ctk.CTkFrame):
+                for child in widget.winfo_children():
+                    if isinstance(child, (ctk.CTkRadioButton, ctk.CTkSlider)):
+                        child.configure(state=state)
+    
+    def _apply_advanced_options(self, driver, tab_index: int):
+        """
+        Áp dụng Advanced Options settings
+        
+        Args:
+            driver: WebDriver instance
+            tab_index: Tab index for logging
+        """
+        if not self.use_advanced_var.get():
+            return
+        
+        try:
+            from selenium.webdriver.common.action_chains import ActionChains
+            
+            # Click Advanced Options button
+            logger.info(f"TAB {tab_index}: Opening Advanced Options...")
+            driver.execute_script("window.scrollBy(0, 300);")
+            time.sleep(1)
+            
+            try:
+                advanced_btn = WebDriverWait(driver, 5).until(
+                    EC.element_to_be_clickable((By.XPATH, BasicSelectors.ADVANCED_OPTIONS_BUTTON))
+                )
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", advanced_btn)
+                time.sleep(0.5)
+                advanced_btn.click()
+                time.sleep(1)
+                logger.info(f"TAB {tab_index}: Advanced Options opened")
+            except:
+                logger.warning(f"TAB {tab_index}: Could not open Advanced Options")
+                return
+            
+            # Exclude Styles
+            exclude_styles = self.exclude_styles_var.get().strip()
+            if exclude_styles:
+                try:
+                    exclude_input = driver.find_element(By.XPATH, BasicSelectors.EXCLUDE_STYLES_INPUT)
+                    exclude_input.clear()
+                    exclude_input.send_keys(exclude_styles)
+                    logger.info(f"TAB {tab_index}: Exclude styles = {exclude_styles}")
+                except:
+                    logger.warning(f"TAB {tab_index}: Could not set exclude styles")
+            
+            # Vocal Gender
+            vocal_gender = self.vocal_gender_var.get()
+            if vocal_gender in ["Male", "Female"]:
+                try:
+                    selector = BasicSelectors.MALE_BUTTON if vocal_gender == "Male" else BasicSelectors.FEMALE_BUTTON
+                    gender_btn = driver.find_element(By.XPATH, selector)
+                    gender_btn.click()
+                    time.sleep(0.5)
+                    logger.info(f"TAB {tab_index}: Vocal gender = {vocal_gender}")
+                except:
+                    logger.warning(f"TAB {tab_index}: Could not set vocal gender")
+            
+            # Lyrics Mode
+            lyrics_mode = self.lyrics_mode_var.get()
+            if lyrics_mode in ["Manual", "Auto"]:
+                try:
+                    selector = BasicSelectors.MANUAL_LYRICS_BUTTON if lyrics_mode == "Manual" else BasicSelectors.AUTO_LYRICS_BUTTON
+                    mode_btn = driver.find_element(By.XPATH, selector)
+                    mode_btn.click()
+                    time.sleep(0.5)
+                    logger.info(f"TAB {tab_index}: Lyrics mode = {lyrics_mode}")
+                except:
+                    logger.warning(f"TAB {tab_index}: Could not set lyrics mode")
+            
+            # Weirdness Slider
+            weirdness_value = self.weirdness_var.get()
+            if weirdness_value != 50:  # Only set if changed from default
+                try:
+                    weirdness_slider = driver.find_element(By.XPATH, BasicSelectors.WEIRDNESS_SLIDER)
+                    self._set_slider_value(driver, weirdness_slider, weirdness_value)
+                    logger.info(f"TAB {tab_index}: Weirdness = {weirdness_value}%")
+                except Exception as e:
+                    logger.warning(f"TAB {tab_index}: Could not set weirdness: {e}")
+            
+            # Style Influence Slider
+            style_influence_value = self.style_influence_var.get()
+            if style_influence_value != 50:  # Only set if changed from default
+                try:
+                    style_slider = driver.find_element(By.XPATH, BasicSelectors.STYLE_INFLUENCE_SLIDER)
+                    self._set_slider_value(driver, style_slider, style_influence_value)
+                    logger.info(f"TAB {tab_index}: Style Influence = {style_influence_value}%")
+                except Exception as e:
+                    logger.warning(f"TAB {tab_index}: Could not set style influence: {e}")
+            
+            # Persona Selection
+            persona_name = self.persona_name_var.get().strip()
+            if persona_name:
+                try:
+                    self._select_persona(driver, persona_name, tab_index)
+                except Exception as e:
+                    logger.warning(f"TAB {tab_index}: Could not select persona: {e}")
+            
+        except Exception as e:
+            logger.error(f"TAB {tab_index}: Error applying advanced options: {e}")
+    
+    def _set_slider_value(self, driver, slider_element, percentage: int):
+        """
+        Set slider value using click-and-drag
+        
+        Args:
+            driver: WebDriver instance
+            slider_element: Slider element
+            percentage: Target value 0-100
+        """
+        from selenium.webdriver.common.action_chains import ActionChains
+        
+        current_value = int(slider_element.get_attribute('aria-valuenow'))
+        min_value = int(slider_element.get_attribute('aria-valuemin'))
+        max_value = int(slider_element.get_attribute('aria-valuemax'))
+        
+        if current_value == percentage:
+            return
+        
+        slider_width = slider_element.size['width']
+        
+        # Calculate positions
+        current_position = (current_value - min_value) / (max_value - min_value)
+        target_position = (percentage - min_value) / (max_value - min_value)
+        
+        # Calculate drag offset
+        drag_offset = (target_position - current_position) * slider_width
+        
+        # Perform drag
+        actions = ActionChains(driver)
+        actions.click_and_hold(slider_element)
+        actions.move_by_offset(drag_offset, 0)
+        actions.release()
+        actions.perform()
+        
+        time.sleep(0.3)
+    
+    def _select_persona(self, driver, persona_name: str, tab_index: int):
+        """
+        Chọn persona từ modal
+        
+        Args:
+            driver: WebDriver instance
+            persona_name: Tên persona cần chọn
+            tab_index: Tab index for logging
+        """
+        logger.info(f"TAB {tab_index}: Selecting persona '{persona_name}'...")
+        
+        # 1. Scroll lên trên cùng
+        driver.execute_script("window.scrollTo(0, 0);")
+        time.sleep(0.5)
+        
+        # 2. Click Persona button
+        try:
+            persona_btn = WebDriverWait(driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, BasicSelectors.PERSONA_BUTTON))
+            )
+            persona_btn.click()
+            time.sleep(1.5)
+            logger.info(f"TAB {tab_index}: Persona modal opened")
+        except Exception as e:
+            logger.warning(f"TAB {tab_index}: Could not open persona modal: {e}")
+            return
+        
+        # 3. Tìm search input và nhập tên
+        try:
+            # Chờ modal animation
+            time.sleep(1)
+            
+            search_input = WebDriverWait(driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, BasicSelectors.PERSONA_MODAL_SEARCH))
+            )
+            
+            search_input.click()
+            time.sleep(0.3)
+            search_input.clear()
+            search_input.send_keys(persona_name.lower())
+            time.sleep(1.5)  # Đợi kết quả search
+            
+            logger.info(f"TAB {tab_index}: Searched for '{persona_name}'")
+        except Exception as e:
+            logger.warning(f"TAB {tab_index}: Could not search persona: {e}")
+            return
+        
+        # 4. Click kết quả đầu tiên (bỏ qua "Create New Persona")
+        try:
+            persona_containers = WebDriverWait(driver, 5).until(
+                EC.presence_of_all_elements_located((By.XPATH, BasicSelectors.PERSONA_CONTAINER))
+            )
+            
+            # Lọc bỏ "Create New Persona"
+            valid_personas = []
+            for container in persona_containers:
+                if "Create New Persona" not in container.text:
+                    valid_personas.append(container)
+            
+            if not valid_personas:
+                logger.warning(f"TAB {tab_index}: No persona found matching '{persona_name}'")
+                return
+            
+            # Click kết quả đầu tiên
+            first_result = valid_personas[0]
+            
+            # Lấy tên để verify
+            try:
+                name_div = first_result.find_element(By.XPATH, 
+                    ".//div[contains(@class, 'text-foreground-primary')]")
+                found_name = name_div.text
+                logger.info(f"TAB {tab_index}: Found persona: '{found_name}'")
+            except:
+                pass
+            
+            # Scroll và click
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", first_result)
+            time.sleep(0.5)
+            first_result.click()
+            time.sleep(1)
+            
+            logger.info(f"TAB {tab_index}: Persona selected successfully")
+            
+        except Exception as e:
+            logger.warning(f"TAB {tab_index}: Could not click persona: {e}")
+

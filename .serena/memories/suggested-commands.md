@@ -1,0 +1,13 @@
+# Suggested Commands
+- **Setup env**
+  - `python -m venv .venv`
+  - `.\.venv\Scripts\activate`
+  - `pip install -r requirements.txt`
+- **Run GUI**: `python app.py`
+- **Legacy CLI smoke**: `python legacy_modules/suno_batch_download.py --help`
+- **Lint/Sanity**: `python -m compileall src`
+- **Tests**:
+  - `pytest`
+  - `python -m pytest tests`
+- **Log tailing (PowerShell)**: `Get-Content logs/app_*.log -Wait`
+- **Repo inspection helpers** (PowerShell): `Get-ChildItem`, `rg` for search (preferred).

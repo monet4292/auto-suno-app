@@ -1,0 +1,4 @@
+1. [x] Review docs/migration-checklist.md and docs/python-to-nodejs-migration-plan.md to confirm the intended workflow, timelines, and dependencies.
+2. [x] Define capability scope for docsmigration-checklist (document location, sections, timelines, gating, rollback, validation) and note any constraints about data retention or tooling references.
+3. [x] Author the spec delta under changes/add-docsmigration-checklist-spec/specs/docsmigration-checklist/spec.md with ADDED requirements plus scenarios that cover structure, per-phase tasks, decision checkpoints, rollback, and success validation checklists.
+4. [x] Self-review the proposal/tasks/spec for coverage, ensure wording stays implementation-agnostic, then run openspec validate add-docsmigration-checklist-spec --strict and address any findings.

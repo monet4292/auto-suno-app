@@ -1,0 +1,2087 @@
+﻿{
+  "id": "f23d2fc7-f86b-4f12-9bfc-c433f5df146a",
+  "name": "suno",
+  "nodes": [],
+  "locators": [
+    {
+      "id": "e3f3a779-d850-481a-8aa7-4a9946902f2b",
+      "name": "Custombutton",
+      "filePath": "94677f8b-be8b-47d2-a2b8-30d90b66dc29.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "DIV"
+                  },
+                  "class": {
+                    "value": "css-1j1umhh edu83vi1"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "active css-1tqwquh edu83vi0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1"
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>span>span>button>div",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "opacity: 1;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "5eba36a8-9a3b-40a7-8ef5-6b6ed25fecd2",
+      "name": "span_custom",
+      "filePath": "dde77766-a4ba-4aef-8d53-840cc88723a8.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "SPAN"
+                  },
+                  "class": {
+                    "value": "css-gixt5w edu83vi2",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "active css-1tqwquh edu83vi0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>span>span>button>span",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Custom"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "be8be1dc-e538-4ac4-99db-161839d2329c",
+      "name": "textarea_write_some_lyrics_or_a_prompt_or_leave_blank_for_instru",
+      "filePath": "3a4e49f8-2c6a-47aa-8ad5-d9fcd0dcce1a.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "TEXTAREA"
+                  },
+                  "class": {
+                    "value": "w-full resize-none border-none bg-transparent text-base outline-none md:text-sm placeholder:text-background-fog-dense",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "relative mb-0 pb-0 css-16gnezu ed4vkow0"
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>textarea",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "placeholder": {
+                    "isCustom": true,
+                    "value": "Write some lyrics or a prompt — or leave blank for instrumental",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "height: 100px;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "643304da-1eee-41ce-86b7-f1a4a0a9622b",
+      "name": "textarea_indie_electronic_synths_120bpm_distorted",
+      "filePath": "1b8dda96-5f83-40c7-8ace-4fa795aab343.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "TEXTAREA"
+                  },
+                  "class": {
+                    "value": "w-full resize-none border-none bg-transparent text-base outline-none md:text-sm placeholder:text-background-fog-dense",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "mb-0 pb-0 css-16gnezu ed4vkow0"
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>textarea",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1"
+                  },
+                  "placeholder": {
+                    "isCustom": true,
+                    "value": "indie, electronic, synths, 120bpm, distorted",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "maxlength": {
+                    "isCustom": true,
+                    "value": "1000",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "height: 100px;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "a381c323-ff6c-4f80-ac87-43473bfd40cb",
+      "name": "input_song_title_optional",
+      "filePath": "2b6309be-0e62-4f7c-9de3-c14d0270ad85.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "INPUT"
+                  },
+                  "class": {
+                    "value": "ml-2 flex-1 bg-transparent py-2 outline-none placeholder:text-ba*"
+                  },
+                  "ancestorId": {
+                    "value": "main-container",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "css-1is7h4f e1y3uoek1",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>input",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "2"
+                  },
+                  "placeholder": {
+                    "isCustom": true,
+                    "value": "Song Title (Optional)",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "wfd-id": {
+                    "isCustom": true,
+                    "value": "id3",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "207c81ed-4123-439b-9e89-9668be5a630d",
+      "name": "button_create_song",
+      "filePath": "b4fc68fa-8946-4510-a1ab-36642fef2114.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "BUTTON"
+                  },
+                  "class": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer disabled:cursor-not-allowed text-[17px] leading-[24px] rounded-full enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 flex-grow p-3 transition-all duration-200 bg-background-tertiary text-foreground-inactive css-x7k4s3 e1t805jb0",
+                    "excluded": true
+                  },
+                  "type": {
+                    "value": "button"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "flex items-center justify-stretch gap-4 bg-background-primary p-4",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>button",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Create"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "disabled": {
+                    "isCustom": true,
+                    "value": "disabled",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-label": {
+                    "isCustom": true,
+                    "value": "Create song",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-describedby": {
+                    "isCustom": true,
+                    "value": "tooltip-«r4p»",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "7379f4f0-26b6-460d-ab65-d256de35ec49",
+      "name": "span_create",
+      "filePath": "735b7675-f215-456b-808d-f30b4f7a2bd4.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "SPAN"
+                  },
+                  "class": {
+                    "value": "relative flex flex-row items-center justify-center gap-2",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer disabled:cursor-not-allowed text-[17px] leading-[24px] rounded-full enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 flex-grow p-3 transition-all duration-200 bg-background-tertiary text-foreground-inactive css-x7k4s3 e1t805jb0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>button>span",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Create"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "b33dbda5-29e4-4753-af90-844065c83b10",
+      "name": "advancedoptions",
+      "filePath": "3d7a12a1-aaaa-4956-b3df-3ab2892ae2a2.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "DIV"
+                  },
+                  "class": {
+                    "value": "css-1f7qn6n ehq3pfj1",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-1xt3ue1 ehq3pfj0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tabIndex": {
+                    "value": "0"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "3"
+                  },
+                  "role": {
+                    "isCustom": true,
+                    "value": "button",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-expanded": {
+                    "isCustom": true,
+                    "value": "false",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "2ecb197c-ab87-44ae-bff1-5fcf6706693e",
+      "name": "div_advanced_options",
+      "filePath": "19d23860-e329-4267-aafa-1c2a5be750d9.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "DIV"
+                  },
+                  "class": {
+                    "value": "css-1a6mtca evrx9ia3",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-6jsm4u evrx9ia2",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Advanced Options"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "331ca342-bf84-426a-992f-8617e4b3c0da",
+      "name": "input_exclude_styles",
+      "filePath": "b1628a85-b5dd-4a4a-89f4-ade221b061dc.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "INPUT"
+                  },
+                  "ancestorId": {
+                    "value": "main-container",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "css-1jy63we e17w2jnj0"
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>input",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "placeholder": {
+                    "isCustom": true,
+                    "value": "Exclude styles",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "maxlength": {
+                    "isCustom": true,
+                    "value": "1000",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "wfd-id": {
+                    "isCustom": true,
+                    "value": "id2",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "725726e5-011a-4282-ab1f-dd913876dbf1",
+      "name": "button_male",
+      "filePath": "b4bbb50b-c527-425c-98d2-518c745479d6.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "BUTTON"
+                  },
+                  "class": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 transition duration-75 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer px-2 py-0.5 rounded-md bg-transparent enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 text-gray-400 mr-px text-xs hover:text-foreground-primary",
+                    "excluded": true
+                  },
+                  "type": {
+                    "value": "button"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-slfj3p e9h95zo5",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>button",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Male"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-selected": {
+                    "isCustom": true,
+                    "value": "false",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "cdafd521-3388-417f-8f95-3e79e77d7100",
+      "name": "button_female",
+      "filePath": "27881d4c-166b-4b21-82b0-63085c0fbee6.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "BUTTON"
+                  },
+                  "class": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 transition duration-75 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer px-2 py-0.5 rounded-md bg-transparent enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 text-gray-400 mr-px text-xs hover:text-foreground-primary",
+                    "excluded": true
+                  },
+                  "type": {
+                    "value": "button"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-slfj3p e9h95zo5",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>button",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Female"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-selected": {
+                    "isCustom": true,
+                    "value": "false",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "7772fa17-5aa5-42c6-93d5-b0245dcc1e92",
+      "name": "button_manual",
+      "filePath": "77086b3f-fe47-4ba7-9136-02819954d4ca.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "BUTTON"
+                  },
+                  "class": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 transition duration-75 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer px-2 py-0.5 rounded-md bg-background-tertiary enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 text-foreground-primary mr-px text-xs hover:text-foreground-primary",
+                    "excluded": true
+                  },
+                  "type": {
+                    "value": "button"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-slfj3p e9h95zo5",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>button",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Manual"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-selected": {
+                    "isCustom": true,
+                    "value": "true",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-describedby": {
+                    "isCustom": true,
+                    "value": "tooltip-«r4f»",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "64e8336e-3933-418e-9929-d9ef235fb766",
+      "name": "button_auto",
+      "filePath": "30e05b46-b6da-4804-96df-f75e83180d81.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "BUTTON"
+                  },
+                  "class": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 transition duration-75 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer px-2 py-0.5 rounded-md bg-transparent enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 text-gray-400 mr-px text-xs hover:text-foreground-primary",
+                    "excluded": true
+                  },
+                  "type": {
+                    "value": "button"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-slfj3p e9h95zo5",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>button",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Auto"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-selected": {
+                    "isCustom": true,
+                    "value": "false",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-describedby": {
+                    "isCustom": true,
+                    "value": "tooltip-«r4h»",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "cfcc23d9-4db3-4e85-bdb9-55cf17c4de44",
+      "name": "slider_weirdness",
+      "filePath": "b43444a2-3811-47fe-ad05-34bf247b6c22.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "DIV"
+                  },
+                  "class": {
+                    "value": "css-1d8szr1 elvusfj0"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-j9om40 e9h95zo3",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tabIndex": {
+                    "value": "0"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1"
+                  },
+                  "role": {
+                    "isCustom": true,
+                    "value": "slider",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-label": {
+                    "isCustom": true,
+                    "value": "Weirdness",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-valuenow": {
+                    "isCustom": true,
+                    "value": "50",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-valuemin": {
+                    "isCustom": true,
+                    "value": "0",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-valuemax": {
+                    "isCustom": true,
+                    "value": "100",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-disabled": {
+                    "isCustom": true,
+                    "value": "false",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "6224b742-57e1-457f-8e91-a0503324d047",
+      "name": "slider_style_influence",
+      "filePath": "5f1ab752-b235-44ce-8a39-26b7ac6cee86.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "DIV"
+                  },
+                  "class": {
+                    "value": "css-1d8szr1 elvusfj0"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-j9om40 e9h95zo3",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tabIndex": {
+                    "value": "0"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "2"
+                  },
+                  "role": {
+                    "isCustom": true,
+                    "value": "slider",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-label": {
+                    "isCustom": true,
+                    "value": "Style Influence",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-valuenow": {
+                    "isCustom": true,
+                    "value": "50",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-valuemin": {
+                    "isCustom": true,
+                    "value": "0",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-valuemax": {
+                    "isCustom": true,
+                    "value": "100",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-disabled": {
+                    "isCustom": true,
+                    "value": "false",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "07de4601-9045-4bf5-b91c-7f4f5394f871",
+      "name": "span_persona",
+      "filePath": "ec296778-e7ef-4f8d-9723-d1153a31352c.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "SPAN"
+                  },
+                  "class": {
+                    "value": "relative flex flex-row items-center justify-center gap-2",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 transition duration-75 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer rounded-0 text-foreground-primary enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 h-full bg-background-fog-thin p-3 text-[14px] rounded-none",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>button>span",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Persona"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "6bf74b65-5984-4cf7-8bec-938e1406a805",
+      "name": "button_add_persona",
+      "filePath": "190787ed-82e0-4ffc-87c5-2bd12c014928.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "BUTTON"
+                  },
+                  "class": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 transition duration-75 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer rounded-0 text-foreground-primary enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 h-full bg-background-fog-thin p-3 text-[14px] rounded-none",
+                    "excluded": true
+                  },
+                  "type": {
+                    "value": "button"
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "css-bxskch eh3it1a0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>button",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Persona"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "aria-label": {
+                    "isCustom": true,
+                    "value": "Add Persona",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "aria-describedby": {
+                    "isCustom": true,
+                    "value": "tooltip-«r44»",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "6e813c02-fb5a-4573-b8d4-ddcc4d97b80c",
+      "name": "input_search_in_persona_modal",
+      "filePath": "43052891-2663-4603-9dd1-6fdbf56b3a7b.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "INPUT"
+                  },
+                  "class": {
+                    "value": "px-4 outline-none h-12 w-full rounded-full border-0 bg-background-tertiary pr-4 pl-12",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "chakra-modal--body-«rb4»"
+                  },
+                  "ancestorClass": {
+                    "value": "relative flex w-full items-center overflow-x-hidden! outline-none",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>section>div>div>div>div>div>div>input",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-slot": {
+                    "isCustom": true,
+                    "value": "input",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "placeholder": {
+                    "isCustom": true,
+                    "value": "Search",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "e26588bc-2f7d-4719-a9d5-cf4c7aec6568",
+      "name": "persona_fist_in_the_list",
+      "filePath": "5b12c330-929c-4d5e-b027-e0c048c2e7d6.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "DIV"
+                  },
+                  "class": {
+                    "value": "group flex w-full cursor-pointer items-center gap-4 rounded-lg p*"
+                  },
+                  "ancestorId": {
+                    "value": "chakra-modal--body-«rb4»"
+                  },
+                  "ancestorClass": {
+                    "value": "pb-2",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>section>div>div>div>div>div>div>div",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "2"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "ee4a62d4-014c-4b22-aaa7-eff20b930512",
+      "name": "button_close_persona_modal",
+      "filePath": "8921a709-5ed8-45ed-b416-d6dcfe848a74.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "BUTTON"
+                  },
+                  "class": {
+                    "value": "relative inline-block font-sans font-medium text-center before:absolute before:inset-0 before:pointer-events-none before:rounded-[inherit] before:border before:border-transparent before:bg-transparent after:absolute after:inset-0 after:pointer-events-none after:rounded-[inherit] after:bg-transparent after:opacity-0 enabled:hover:after:opacity-100 transition duration-75 before:transition before:duration-75 after:transition after:duration-75 select-none cursor-pointer text-[17px] leading-[24px] aspect-square p-2.5 text-foreground-primary bg-background-tertiary enabled:hover:before:bg-overlay-on-primary disabled:after:bg-background-primary disabled:after:opacity-50 rounded-full",
+                    "excluded": true
+                  },
+                  "type": {
+                    "value": "button"
+                  },
+                  "ancestorId": {
+                    "value": "chakra-modal-«rb4»"
+                  },
+                  "ancestorClass": {
+                    "value": "absolute top-4 right-4 z-[9999]",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>section>div>button",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "aria-label": {
+                    "isCustom": true,
+                    "value": "Close",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "a160e55b-92e8-4e3d-81b0-9149ca3415c7",
+      "name": "button_simple",
+      "filePath": "60980253-8dc8-4433-a944-12630bceb743.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "BUTTON"
+                  },
+                  "class": {
+                    "value": "css-1tqwquh edu83vi0",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "flex flex-1 items-center justify-stretch gap-0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>span>span>button",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Simple"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "2dfad246-e9f1-4490-9032-72a975b75c97",
+      "name": "span_simple",
+      "filePath": "4c04fa49-f9a6-4f65-8cec-edd4cf0e4c7f.jpg",
+      "content": {
+        "automationType": "Chrome",
+        "processName": {
+          "value": "chrome"
+        },
+        "filePath": {
+          "value": "chrome.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "Suno | AI Music"
+              },
+              "url": {
+                "value": "https://suno.com/create",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "SPAN"
+                  },
+                  "class": {
+                    "value": "css-gixt5w edu83vi2",
+                    "excluded": true
+                  },
+                  "ancestorId": {
+                    "value": "main-container"
+                  },
+                  "ancestorClass": {
+                    "value": "active css-1tqwquh edu83vi0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>span>span>button>span",
+                    "excluded": true
+                  },
+                  "sInfo": {
+                    "value": "Simple"
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "originalName": "suno"
+}
