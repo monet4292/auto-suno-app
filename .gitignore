@@ -168,3 +168,4 @@ logs/
 !data/README.md
 *.pkl
 *.pma
+node_modules
